@@ -22,3 +22,24 @@ class Picture {
     return new Picture(this.width, this.height, copy);
   }
 }
+
+function elt(type, props, ...children) {
+  let dom = document.createElement(type);
+  if (props) Object.assign(dom, props);
+  for (let child of children) {
+    if (typeof child != "string") dom.appendChild(child);
+    else dom.appendChild(document.createTextNode(child));
+  }
+  return dom;
+}
+
+const scale = 10;
+
+class PictureCanvas {
+  constructor(picture, pointerDown) {
+    this.dom = elt("canvas", {
+      onmousedown: (event) => this.mouse(event, pointerDown),
+      ontouchstart: (event) => this.touch(event, pointerDown),
+    });
+  }
+}
